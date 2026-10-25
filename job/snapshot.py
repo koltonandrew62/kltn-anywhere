@@ -176,7 +176,8 @@ def rss(url, src, cat, limit=40):
         if tag not in ("item", "entry"):
             continue
         g = lambda n: next((c for c in it if c.tag.split("}")[-1] == n), None)
-        t = g("title"); ln = g("link"); d = g("pubDate") or g("published") or g("updated") or g("date")
+        t = g("title"); ln = g("link")
+        d = next((x for x in (g("pubDate"), g("published"), g("updated"), g("date")) if x is not None), None)   # not `or`: a childless element is falsy
         title = html.unescape(re.sub(r"<[^>]+>", "", (t.text or "") if t is not None else "")).strip()
         link = (ln.text or ln.get("href") or "").strip() if ln is not None else ""
         ts = None
@@ -188,8 +189,8 @@ def rss(url, src, cat, limit=40):
                     ts = time.mktime(time.strptime(d.text.strip()[:19], "%Y-%m-%dT%H:%M:%S")) - time.timezone
                 except Exception:
                     ts = None
-        if title and link:
-            items.append({"title": title, "link": link, "ts": ts or time.time(), "source": src, "cat": cat,
+        if title and link and ts:                  # an undated item would sort as "just now" above every real story
+            items.append({"title": title, "link": link, "ts": ts, "source": src, "cat": cat,
                           "code": next((v for k, v in CODE.items() if src.startswith(k)), src[:3].upper())})
         if len(items) >= limit:
             break
