@@ -8,6 +8,7 @@ The phone app (index.html + js/anywhere.js in static mode) reads these files; no
 Symbols: the KLTN security master (data/universe.json, copied from the app) plus the market lists the app shows.
 Market data: Yahoo Finance public endpoints, delayed; news: publishers' public RSS feeds.
 """
+import calendar
 import concurrent.futures as cf
 import email.utils
 import html
@@ -28,7 +29,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 EXTRA = ["^GSPC", "^IXIC", "^DJI", "^RUT", "^VIX", "^TNX", "^IRX", "^FVX", "^TYX", "DX-Y.NYB", "EURUSD=X", "JPY=X", "GBPUSD=X", "CHF=X", "AUDUSD=X",
          "CAD=X", "CNY=X", "MXN=X", "CL=F", "BZ=F", "NG=F", "GC=F", "SI=F", "HG=F", "ZC=F", "ZS=F", "ZW=F", "KC=F", "ES=F", "NQ=F", "YM=F", "RTY=F",
          "ZN=F", "ZB=F", "VX=F", "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "DOGE-USD", "^FTSE", "^GSPTSE", "^BVSP", "^STOXX50E", "^GDAXI", "^FCHI",
-         "^N225", "^HSI", "000300.SS", "^KS11", "^AXJO", "^NSEI"]
+         "^N225", "^HSI", "000300.SS", "^KS11", "^AXJO", "^NSEI", "^NDX", "^MXX", "^IBEX", "FTSEMIB.MI", "^AEX", "^SSMI", "000001.SS", "^TWII",
+         "^STI", "NZDUSD=X", "EURJPY=X", "EURGBP=X", "GBPJPY=X", "HKD=X", "INR=X", "KRW=X", "BRL=X", "SEK=X", "NOK=X", "ZT=F", "ZF=F", "HO=F", "RB=F",
+         "PL=F", "SB=F", "CC=F", "CT=F", "LE=F", "ADA-USD"]
 FEEDS = [  # (source, url, category) - publishers' own public RSS
     ("CNBC", "https://www.cnbc.com/id/100003114/device/rss/rss.html", "Markets"), ("CNBC Markets", "https://www.cnbc.com/id/20409666/device/rss/rss.html", "Markets"),
     ("CNBC Earnings", "https://www.cnbc.com/id/15839135/device/rss/rss.html", "Markets"), ("MarketWatch", "https://feeds.content.dowjones.io/public/rss/mw_topstories", "Markets"),
@@ -262,6 +265,14 @@ def hist(out):
         if s in d1 or s in w5:
             write(os.path.join(out, "data", "hist", safe(s) + ".json"), {"d": d1.get(s) or [], "w": w5.get(s) or []})
             n += 1
+    # last close of the previous year per security: the app's %Ytd / Net YTD columns
+    jan1 = calendar.timegm((time.gmtime().tm_year, 1, 1, 0, 0, 0))
+    base = {}
+    for s, pts in d1.items():
+        prev = [c for t, c in pts if t < jan1 and isinstance(c, (int, float))]
+        if prev:
+            base[s] = prev[-1]
+    write(os.path.join(out, "data", "hist", "_ytd.json"), base)
     write(os.path.join(out, "data", "hist", "_meta.json"), {"asof": time.time(), "n": n})
     print("hist: %d securities in %.0f s" % (n, time.time() - t0))
 

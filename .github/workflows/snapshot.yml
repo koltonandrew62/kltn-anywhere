@@ -40,7 +40,7 @@ jobs:
           if [ -f _site/data/hist/_meta.json ]; then
             age=$(python -c "import json,time;print(int(time.time()-json.load(open('_site/data/hist/_meta.json'))['asof']))")
           fi
-          if [ "$age" -gt 72000 ]; then
+          if [ "$age" -gt 72000 ] || [ ! -f _site/data/hist/_ytd.json ]; then
             python job/snapshot.py hist _site
             rm -rf /tmp/h && mkdir -p /tmp/h && cp -r _site/data/hist /tmp/h/
             cd /tmp/h && git init -q && git checkout -q -b hist && git add -A

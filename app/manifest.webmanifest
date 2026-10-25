@@ -4,9 +4,9 @@
  "start_url": ".",
  "scope": ".",
  "display": "standalone",
- "background_color": "#000000",
- "theme_color": "#000000",
- "description": "KLTN Research Terminal on your phone: markets, quotes, charts and news.",
+ "background_color": "#141414",
+ "theme_color": "#282828",
+ "description": "KLTN Research Terminal on your phone: live markets, quotes, charts, news and every terminal function.",
  "icons": [
   {
    "src": "icons/icon-192.png",
