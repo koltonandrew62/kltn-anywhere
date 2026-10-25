@@ -1,0 +1,63 @@
+# KLTN Anywhere: refresh the market data and publish the phone app on GitHub Pages.
+# Every 15 minutes: quotes, intraday sparklines, news, movers (job/snapshot.py quick).
+# Once a day (or when missing): 1-year daily and 5-year weekly chart history, kept on the orphan branch "hist"
+# (force-pushed, so the repository does not grow) and merged into every deploy.
+name: snapshot
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Site skeleton
+        run: |
+          mkdir -p _site/data
+          cp -r app/* _site/
+          mv _site/universe.json _site/data/universe.json
+      - name: Chart history (daily)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git fetch -q origin hist 2>/dev/null; then
+            mkdir -p _site/data/hist && git archive FETCH_HEAD hist | tar -x -C _site/data
+          fi
+          age=999999
+          if [ -f _site/data/hist/_meta.json ]; then
+            age=$(python -c "import json,time;print(int(time.time()-json.load(open('_site/data/hist/_meta.json'))['asof']))")
+          fi
+          if [ "$age" -gt 72000 ]; then
+            python job/snapshot.py hist _site
+            rm -rf /tmp/h && mkdir -p /tmp/h && cp -r _site/data/hist /tmp/h/
+            cd /tmp/h && git init -q && git checkout -q -b hist && git add -A
+            git -c user.name="kltn-anywhere-bot" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "chart history $(date -u +%F)"
+            git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" hist
+          fi
+      - name: Market data
+        run: python job/snapshot.py quick _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

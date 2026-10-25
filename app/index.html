@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<title>KLTN Anywhere</title>
+<meta name="description" content="KLTN Research Terminal on your phone: markets, quotes, charts, news and every terminal function.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="KLTN">
+<link rel="icon" href="icons/icon-192.png" sizes="any">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="css/anywhere.css">
+</head>
+<body>
+<div id="app">
+  <header class="mh">
+    <span class="mh-logo">KLTN</span><span class="mh-sub">Anywhere</span>
+    <span class="grow"></span>
+    <span class="mh-st" id="mst"></span>
+    <button class="mh-me" id="mme" aria-label="Account"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="7" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.2 17.6c.9-3.2 3.6-5 6.8-5s5.9 1.8 6.8 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  </header>
+  <form class="mcmd" id="mcmd" autocomplete="off">
+    <span class="mcmd-bar"></span>
+    <input id="min" type="text" inputmode="text" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="Ticker or function, e.g. AAPL GP">
+    <button type="submit" class="mcmd-go">GO</button>
+    <div class="mac" id="mac"></div>
+  </form>
+  <main id="mv" class="mv"></main>
+  <nav class="mtab" id="mtab">
+    <button data-v="home" class="on"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2V20h-5.6v-5.4H9.1V20H3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><span>Home</span></button>
+    <button data-v="markets"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19h18M5 16l4-5 3.5 3L19 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Markets</span></button>
+    <button data-v="news"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 9h10M7 12.5h10M7 16h6" stroke="currentColor" stroke-width="1.6"/></svg><span>News</span></button>
+    <button data-v="watch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Watch</span></button>
+    <button data-v="fns"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Functions</span></button>
+  </nav>
+</div>
+<script src="js/chart.js"></script>
+<script>window.KLTN_STATIC = 1;</script>
+<script src="js/anywhere.js"></script>
+</body>
+</html>
