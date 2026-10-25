@@ -469,15 +469,16 @@
   // menu: market monitors here, every other function on the full terminal
   const FN = [
     ['Markets', [['WEI', 'World Equity Indices'], ['WEIF', 'World Index Futures'], ['FXC', 'Currencies'], ['WB', 'Government Bonds'], ['GLCO', 'Commodities'], ['CRYP', 'Crypto Currencies'],
-      ['MOST', 'Most Active Securities'], ['MOV', 'Index Movers'], ['IMAP', 'Intraday Market Map'], ['WIRP', 'Rate Probabilities'], ['BTMM', 'Treasury & Money Markets'], ['CDS', 'Credit Default Swaps']]],
-    ['News & Economy', [['TOP', 'Top News'], ['NSE', 'News Search'], ['READ', 'Most Read News'], ['ECO', 'Economic Calendar'], ['ECST', 'World Economic Statistics'], ['ECSU', 'Economic Surprises'],
+      ['GMM', 'Global Macro Movers'], ['FIT', 'Government Bond Monitor'], ['MOST', 'Most Active Securities'], ['OMST', 'Most Active Options'], ['MOV', 'Index Movers'], ['IMAP', 'Intraday Market Map'],
+      ['WIRP', 'Rate Probabilities'], ['BTMM', 'Treasury & Money Markets'], ['SWPM', 'Swap Manager'], ['OVML', 'FX Option Valuation'], ['CDS', 'Credit Default Swaps']]],
+    ['News & Economy', [['TOP', 'Top News'], ['NI', 'News by Topic'], ['NSE', 'News Search'], ['READ', 'Most Read News'], ['RATC', 'Rating Changes'], ['ECO', 'Economic Calendar'], ['ECST', 'World Economic Statistics'], ['ECSU', 'Economic Surprises'],
       ['CENB', 'Central Bank Monitor'], ['EVTS', 'Events Calendar'], ['BRIEF', 'Morning Brief']]],
     ['Equity (after a ticker)', [['DES', 'Description'], ['GP', 'Price Chart'], ['GIP', 'Intraday Chart'], ['CN', 'Company News'], ['FA', 'Financial Analysis'], ['ANR', 'Analyst Recommendations'],
       ['EE', 'Earnings & Estimates'], ['HDS', 'Holders'], ['OMON', 'Option Monitor'], ['DVD', 'Dividends'], ['RV', 'Relative Valuation'], ['BETA', 'Historical Beta'], ['SI', 'Short Interest'],
       ['CAST', 'Capital Structure'], ['QR', 'Quote Recap'], ['SPLC', 'Supply Chain'], ['ERN', 'Earnings History'], ['COMP', 'Comparative Returns'], ['DCF', 'Discounted Cash Flow'],
-      ['WACC', 'Cost of Capital'], ['INSD', 'Insider Transactions']]],
+      ['WACC', 'Cost of Capital'], ['INSD', 'Insider Transactions'], ['ALLQ', 'All Quotes'], ['RVC', 'Relative Value Chart'], ['EQRV', 'Equity Relative Valuation']]],
     ['Screening & Research', [['EQS', 'Equity Screening'], ['SECF', 'Security Finder'], ['BMAP', 'Maps'], ['CORR', 'Correlation Matrix'], ['MA', 'Mergers & Acquisitions'], ['IPO', 'IPO Monitor'],
-      ['KQNT', 'KLTN Quant'], ['LEGI', 'Legislation'], ['COT', 'Commitments of Traders'], ['AGRI', 'Agriculture'], ['SHIP', 'Ships'], ['CHOKE', 'Chokepoints']]],
+      ['KQNT', 'KLTN Quant'], ['LTOP', 'League Tables'], ['LEGI', 'Legislation'], ['COT', 'Commitments of Traders'], ['AGRI', 'Agriculture'], ['SHIP', 'Ships'], ['CHOKE', 'Chokepoints']]],
     ['Workspace', [['PORT', 'Portfolio & Risk'], ['ALRT', 'Alerts'], ['IB', 'Instant Chat'], ['MSG', 'Mail'], ['PEOP', 'People'], ['NOTE', 'Notes'], ['HELP', 'Help']]],
   ];
   const FNNAME = Object.fromEntries(FN.flatMap(g => g[1]));
